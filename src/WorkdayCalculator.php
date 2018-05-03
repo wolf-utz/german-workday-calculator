@@ -32,6 +32,11 @@ class WorkdayCalculator
     private $fileHandler;
 
     /**
+     * @var string
+     */
+    private $state = "NATIONAL";
+
+    /**
      * WorkdayCalculator constructor.
      */
     public function __construct()
@@ -51,11 +56,11 @@ class WorkdayCalculator
     {
         $increments = 1;
         $year = $date->format('Y');
-        $holidays = $this->getHolidays((int) $date->format('Y'), 'NATIONAL');
+        $holidays = $this->getHolidays((int) $date->format('Y'), $this->state);
         while ($increments < $incrementDays) {
             if ($year != $date->format('Y')) {
                 $year = $date->format('Y');
-                $holidays = $this->getHolidays((int) $year, 'NATIONAL');
+                $holidays = $this->getHolidays((int) $year, $this->state);
             }
             $date->add(new \DateInterval('P1D'));
             if (!$this->dateIsHoliday($date, $holidays) && 7 != $date->format('N')) {
@@ -83,11 +88,11 @@ class WorkdayCalculator
         $loops = 0;
         $workdaysCount = 1;
         $year = $from->format('Y');
-        $holidays = $this->getHolidays((int) $year, 'NATIONAL');
+        $holidays = $this->getHolidays((int) $year, $this->state);
         while ($from->format('Y-m-d') != $till->format('Y-m-d')) {
             if ($year != $from->format('Y')) {
                 $year = $from->format('Y');
-                $holidays = $this->getHolidays((int) $year, 'NATIONAL');
+                $holidays = $this->getHolidays((int) $year, $this->state);
             }
             $from->add(new \DateInterval('P1D'));
             if (!$this->dateIsHoliday($from, $holidays) && 7 != $from->format('N')) {
@@ -136,5 +141,13 @@ class WorkdayCalculator
         }
 
         return false;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
     }
 }
