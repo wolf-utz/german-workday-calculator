@@ -17,7 +17,6 @@
 
 namespace OmegaCode\API;
 
-use OmegaCode\API\Exception\APIException;
 use OmegaCode\Persistence\FileHandler;
 
 /**
@@ -32,37 +31,40 @@ class HolidayAPI
     const STATE_PARAMETER = '&nur_land=';
 
     /**
-     * @param int    $year
-     * @param string $state
-     *
-     * possible states are:
-     * - BW (Baden-Württemberg)
-     * - BY (Bayern)
-     * - BE (Berlin)
-     * - BB (Brandenburg)
-     * - HB (Bremen)
-     * - HH (Hamburg)
-     * - HE (Hessen)
-     * - MV (Mecklenburg-Vorpommern)
-     * - NI (Niedersachsen)
-     * - NW (Nordrhein-Westfalen)
-     * - RP (Rheinland Pfalz)
-     * - SL (Saarland)
-     * - SN (Sachsen)
-     * - ST (Sachen-Anhalt)
-     * - SH (Schleswig Holstein)
-     * - TH (Thüringen)
-     * - NATIONAL
-     *
-     * @return mixed
+     * @param int         $year
+     * @param string      $state       possible states are:
+     *                                 - BW (Baden-Württemberg)
+     *                                 - BY (Bayern)
+     *                                 - BE (Berlin)
+     *                                 - BB (Brandenburg)
+     *                                 - HB (Bremen)
+     *                                 - HH (Hamburg)
+     *                                 - HE (Hessen)
+     *                                 - MV (Mecklenburg-Vorpommern)
+     *                                 - NI (Niedersachsen)
+     *                                 - NW (Nordrhein-Westfalen)
+     *                                 - RP (Rheinland Pfalz)
+     *                                 - SL (Saarland)
+     *                                 - SN (Sachsen)
+     *                                 - ST (Sachen-Anhalt)
+     *                                 - SH (Schleswig Holstein)
+     *                                 - TH (Thüringen)
+     *                                 - NATIONAL
+     * @param FileHandler $fileHandler
      *
      * @throws APIException
      */
-    public static function fetch($year, $state)
+    public static function fetch($year, $state, FileHandler $fileHandler)
     {
         try {
-            $fileHandler = new FileHandler();
             $response = file_get_contents(self::API_BASE_URL.self::YEAR_PARAMETER.$year.self::STATE_PARAMETER.$state);
+            $jsonResponse = json_decode($response);
+            if (JSON_ERROR_NONE != json_last_error() || is_null($jsonResponse)) {
+                throw new \RuntimeException(
+                    'The API does not return a valid JSON string or returns null. Check your request!',
+                    1525352105
+                );
+            }
             $fileHandler->persistResponse($year, $state, $response);
         } catch (\Exception $e) {
             throw new APIException($e->getMessage(), $e->getCode(), $e);

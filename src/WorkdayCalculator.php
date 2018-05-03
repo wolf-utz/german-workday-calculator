@@ -17,7 +17,7 @@
 
 namespace OmegaCode;
 
-use OmegaCode\API\Exception\APIException;
+use OmegaCode\API\APIException;
 use OmegaCode\API\HolidayAPI;
 use OmegaCode\Persistence\FileHandler;
 
@@ -34,7 +34,7 @@ class WorkdayCalculator
     /**
      * @var string
      */
-    private $state = "NATIONAL";
+    private $state = 'NATIONAL';
 
     /**
      * WorkdayCalculator constructor.
@@ -113,12 +113,12 @@ class WorkdayCalculator
      *
      * @return mixed
      *
-     * @throws APIException
+     * @throws API\APIException
      */
     public function getHolidays($year, $state)
     {
         if (!$this->fileHandler->responseExist($year, $state)) {
-            HolidayAPI::fetch($year, $state);
+            HolidayAPI::fetch($year, $state, $this->fileHandler);
         }
 
         return $this->fileHandler->readPersistedResponse($year, $state);

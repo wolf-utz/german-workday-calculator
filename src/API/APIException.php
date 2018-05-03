@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace OmegaCode\API\Exception;
+namespace OmegaCode\API;
 
 use Throwable;
 
