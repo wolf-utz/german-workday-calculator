@@ -1,0 +1,19 @@
+{
+    "name": "omegacode/workday-calculator",
+    "description": "This library adds a class to calculate wordays using the api from https://feiertage-api.de/.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Wolf Utz",
+            "email": "wpu@hotmail.de"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "OmegaCode\\": "src/"
+        }
+    }
+}

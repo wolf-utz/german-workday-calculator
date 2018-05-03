@@ -1,0 +1,5 @@
+/vendor/
+/cli-test.php
+/tmp/api-response_*
+.idea/
+.php_cs.cache
