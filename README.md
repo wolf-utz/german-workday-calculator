@@ -9,17 +9,47 @@ Add `omegacode/german-workday-calculator` as a dependency in your composer.json.
 ## Usage
 ```php
 <?php
-use OmegaCode\WorkdayCalculator;
-// Create an instance of the claculator and set the states for german holidays to Hessen.
-$calculator = new WorkdayCalculator();
-$calculator->setState("HE"); // Check the info section for all possibilities.
-// Create some test date time objects.
-$testDate = \DateTime::createFromFormat('Y-m-d', "2018-05-07");
-$testDateFrom = \DateTime::createFromFormat('Y-m-d', "2018-04-30");
-$testDateTill = \DateTime::createFromFormat('Y-m-d', "2018-05-14");
+require_once __DIR__.'/vendor/autoload.php';
 
-$result1 = $calculator->calculateIncrementedDate($testDate, 6); // 2018-05-14
-$result2 = $calculator->calculateByDateRange($testDateFrom, $testDateTill);  // 11
+// Create an instance of the calculator and set the states for german holidays to Hessen.
+$calculator = new OmegaCode\GermanWorkdayCalculator\WorkdayCalculator();
+$calculator->setState(OmegaCode\GermanWorkdayCalculator\States::NATIONAL); // Check the info section for all possibilities.
+
+// Create some test date time objects.
+$testDate = \DateTime::createFromFormat('Y-m-d', '2018-05-07');
+$testDateFrom = \DateTime::createFromFormat('Y-m-d', '2018-07-03');
+$testDateTill = \DateTime::createFromFormat('Y-m-d', '2018-07-10');
+
+try {
+    $result1 = $calculator->calculateIncrementedDate(
+        $testDate,
+        365,
+        [
+            \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator::IGNORE_SUNDAY,
+            \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator::IGNORE_SATURDAY,
+        ]
+    );
+} catch (Exception $e) {
+    echo '[ERROR]: '.$e->getMessage().PHP_EOL;
+}
+
+try {
+    $result2 = $calculator->calculateByDateRange(
+        $testDateFrom,
+        $testDateTill,
+        [
+            \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator::IGNORE_SUNDAY,
+            \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator::IGNORE_SATURDAY,
+        ]
+    );
+} catch (OmegaCode\GermanWorkdayCalculator\API\APIException $e) {
+    echo '[ERROR]: '.$e->getMessage().PHP_EOL;
+} catch (Exception $e) {
+    echo '[ERROR]: '.$e->getMessage().PHP_EOL;
+}
+
+echo $result1->format('Y-m-d').PHP_EOL; // 2019-10-14
+echo $result2.PHP_EOL; // 6
 ```
 
 ## Info

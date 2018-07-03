@@ -1,8 +1,8 @@
 {
     "name": "omegacode/german-workday-calculator",
-    "description": "This library adds a class to calculate workdays using the api from https://feiertage-api.de/.",
+    "description": "This library adds a class to calculate german workdays, using the api from https://feiertage-api.de/.",
     "type": "library",
-    "version": "1.1.2",
+    "version": "3.0.0",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -11,10 +11,25 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "php": "^5.6 || ^7.0"
+    },
+    "require-dev": {
+        "php": "^5.6 || ^7.0",
+        "phpunit/phpunit": "^5.0",
+        "behat/behat": "^3.4",
+        "behat/mink": "^1.7",
+        "behat/mink-goutte-driver": "^1.2",
+        "behat/mink-selenium2-driver": "^1.3"
+    },
     "autoload": {
         "psr-4": {
-            "OmegaCode\\": "src/"
+            "OmegaCode\\GermanWorkdayCalculator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OmegaCode\\GermanWorkdayCalculator\\Tests\\": "tests/"
         }
     }
 }

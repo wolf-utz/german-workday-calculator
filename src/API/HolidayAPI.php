@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-namespace OmegaCode\API;
+namespace OmegaCode\GermanWorkdayCalculator\API;
 
-use OmegaCode\Persistence\FileHandler;
+use OmegaCode\GermanWorkdayCalculator\Persistence\FileHandler;
 
 /**
  * Class HolidayAPI.
@@ -65,6 +65,12 @@ class HolidayAPI
                     1525352105
                 );
             }
+
+
+
+
+
+
             $fileHandler->persistResponse($year, $state, $response);
         } catch (\Exception $e) {
             throw new APIException($e->getMessage(), $e->getCode(), $e);

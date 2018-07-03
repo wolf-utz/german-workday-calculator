@@ -1,0 +1,9 @@
+default:
+  autoload:
+    '': %paths.base%/tests/Features/Bootstrap
+  suites:
+    default:
+      paths:
+        - %paths.base%/tests/Features
+      contexts:
+        - OmegaCode\GermanWorkdayCalculator\Tests\Features\Bootstrap\FeiertageAPIContext

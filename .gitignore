@@ -3,3 +3,5 @@
 /tmp/api-response_*
 .idea/
 .php_cs.cache
+/composer.phar
+/build/

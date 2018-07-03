@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace OmegaCode\Persistence;
+namespace OmegaCode\GermanWorkdayCalculator\Persistence;
 
 /**
  * Class FileHandler.

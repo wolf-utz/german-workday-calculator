@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 
-namespace OmegaCode;
+namespace OmegaCode\GermanWorkdayCalculator;
 
-use OmegaCode\API\APIException;
-use OmegaCode\API\HolidayAPI;
-use OmegaCode\Persistence\FileHandler;
+use OmegaCode\GermanWorkdayCalculator\API\APIException;
+use OmegaCode\GermanWorkdayCalculator\API\HolidayAPI;
+use OmegaCode\GermanWorkdayCalculator\Persistence\FileHandler;
 
 /**
  * Class WorkdayCalculator.
  */
 class WorkdayCalculator
 {
+    const IGNORE_SUNDAY = 7;
+    const IGNORE_SATURDAY = 6;
+
     /**
      * @var null|FileHandler
      */
@@ -34,7 +37,7 @@ class WorkdayCalculator
     /**
      * @var string
      */
-    private $state = 'NATIONAL';
+    private $state = States::NATIONAL;
 
     /**
      * WorkdayCalculator constructor.
@@ -47,12 +50,13 @@ class WorkdayCalculator
     /**
      * @param \DateTime $date
      * @param int       $incrementDays
+     * @param array     $ignoreDays
      *
      * @return \DateTime
      *
-     * @throws \Exception
+     * @throws APIException
      */
-    public function calculateIncrementedDate(\DateTime $date, $incrementDays)
+    public function calculateIncrementedDate(\DateTime $date, $incrementDays, array $ignoreDays = [self::IGNORE_SUNDAY])
     {
         $increments = 1;
         $year = $date->format('Y');
@@ -63,7 +67,7 @@ class WorkdayCalculator
                 $holidays = $this->getHolidays((int) $year, $this->state);
             }
             $date->add(new \DateInterval('P1D'));
-            if (!$this->dateIsHoliday($date, $holidays) && 7 != $date->format('N')) {
+            if (!$this->dateIsHoliday($date, $holidays) && !in_array($date->format('N'), $ignoreDays)) {
                 ++$increments;
             }
         }
@@ -74,16 +78,16 @@ class WorkdayCalculator
     /**
      * @param \DateTime $from
      * @param \DateTime $till
+     * @param array     $ignoreDays
      *
      * @return int
      *
      * @throws APIException
-     * @throws \Exception
      */
-    public function calculateByDateRange(\DateTime $from, \DateTime $till)
+    public function calculateByDateRange(\DateTime $from, \DateTime $till, array $ignoreDays = [self::IGNORE_SUNDAY])
     {
         if ($from >= $till) {
-            throw new \InvalidArgumentException('Date from must be graeter than date till!', 1525337424);
+            throw new \InvalidArgumentException('Date from must be greater than date till!', 1525337424);
         }
         $loops = 0;
         $workdaysCount = 1;
@@ -95,7 +99,7 @@ class WorkdayCalculator
                 $holidays = $this->getHolidays((int) $year, $this->state);
             }
             $from->add(new \DateInterval('P1D'));
-            if (!$this->dateIsHoliday($from, $holidays) && 7 != $from->format('N')) {
+            if (!$this->dateIsHoliday($from, $holidays) && !in_array($from->format('N'), $ignoreDays)) {
                 ++$workdaysCount;
             }
             if ($loops > 9999) {
@@ -149,5 +153,13 @@ class WorkdayCalculator
     public function setState($state)
     {
         $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }
