@@ -1,7 +1,7 @@
-# Workday Claculator
+# Workday Calculator
 
 ## Description
-This library adds a class to calculate wordays using the api from https://feiertage-api.de/."
+This library adds a class to calculate workdays using the api from https://feiertage-api.de/."
 
 ## Installation
 Add `omegacode/german-workday-calculator` as a dependency in your composer.json.

@@ -30,7 +30,7 @@ class WorkdayCalculator
     const IGNORE_SATURDAY = 6;
 
     /**
-     * @var null|FileHandler
+     * @var FileHandler|null
      */
     private $fileHandler;
 
@@ -103,7 +103,10 @@ class WorkdayCalculator
                 ++$workdaysCount;
             }
             if ($loops > 9999) {
-                throw new \RuntimeException('Stopped execution here, to avoid infinite looping. Check your argument date range!', 1525337787);
+                throw new \RuntimeException(
+                    'Stopped execution here, to avoid infinite looping. Check your argument date range!',
+                    1525337787
+                );
             }
             ++$loops;
         }

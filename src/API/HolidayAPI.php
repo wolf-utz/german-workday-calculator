@@ -65,12 +65,6 @@ class HolidayAPI
                     1525352105
                 );
             }
-
-
-
-
-
-
             $fileHandler->persistResponse($year, $state, $response);
         } catch (\Exception $e) {
             throw new APIException($e->getMessage(), $e->getCode(), $e);
