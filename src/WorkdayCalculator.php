@@ -48,6 +48,14 @@ class WorkdayCalculator
     }
 
     /**
+     * @param $path
+     */
+    public function setCachePath($path)
+    {
+        $this->fileHandler->setPersistencePath($path);
+    }
+
+    /**
      * @param \DateTime $date
      * @param int       $incrementDays
      * @param array     $ignoreDays

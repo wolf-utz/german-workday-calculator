@@ -12,7 +12,7 @@ Add `omegacode/german-workday-calculator` as a dependency in your composer.json.
 require_once __DIR__.'/vendor/autoload.php';
 
 // Create an instance of the calculator and set the states for german holidays to Hessen.
-$calculator = new OmegaCode\GermanWorkdayCalculator\WorkdayCalculator();
+$calculator = new \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator();
 $calculator->setState(OmegaCode\GermanWorkdayCalculator\States::NATIONAL); // Check the info section for all possibilities.
 
 // Create some test date time objects.
@@ -72,3 +72,15 @@ echo $result2.PHP_EOL; // 6
 * SH (Schleswig Holstein)
 * TH (Thüringen)
 * NATIONAL
+
+### Change path of cached api response files
+
+```php
+<?php
+require_once __DIR__.'/vendor/autoload.php';
+
+// Create an instance of the calculator and set the states for german holidays to Hessen.
+$calculator = new \OmegaCode\GermanWorkdayCalculator\WorkdayCalculator();
+$calculator->setCachePath("/my/custom/cache/path");
+// do stuff..
+```

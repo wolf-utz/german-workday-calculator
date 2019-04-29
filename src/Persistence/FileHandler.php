@@ -72,4 +72,15 @@ class FileHandler
 
         return json_decode($response);
     }
+
+    /**
+     * @param $path
+     */
+    public function setPersistencePath($path)
+    {
+        if (!is_readable($path)) {
+            throw new \InvalidArgumentException("Path $path does not exist or is not readable!", 1556568843);
+        }
+        $this->persistencePath = $path;
+    }
 }
