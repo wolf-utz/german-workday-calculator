@@ -2,7 +2,6 @@
     "name": "omegacode/german-workday-calculator",
     "description": "This library adds a class to calculate german workdays, using the api from https://feiertage-api.de/.",
     "type": "library",
-    "version": "3.1.0",
     "license": "Apache-2.0",
     "authors": [
         {
